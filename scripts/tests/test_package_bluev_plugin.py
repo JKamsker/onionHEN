@@ -53,6 +53,31 @@ class IntegrationTests(unittest.TestCase):
             self.assertEqual(plugin.elf_sections(output.read_bytes())[".onion_plugin"],
                              plugin.descriptor_bytes("1.00"))
             self.assertEqual(subprocess.run([str(output)], capture_output=True).returncode, 0)
+            # Compile onionHEN's actual plugin inspector, when running in the full repo.
+            root_repo = SCRIPT.parents[1]
+            inspector_cpp = root_repo / "source/libonion_plugin_manager/source/plugin_descriptor.cpp"
+            inspector_include = root_repo / "source/libonion_plugin_manager/include"
+            cxx = shutil.which("clang++") or shutil.which("g++")
+            if inspector_cpp.is_file() and cxx:
+                check_cpp = root / "check.cpp"
+                check_cpp.write_text(
+                    '#include <onion/plugin_manager.hpp>\n'
+                    '#include <fstream>\n'
+                    '#include <iterator>\n'
+                    '#include <vector>\n'
+                    'int main(int argc, char **argv) {\n'
+                    '  if (argc != 2) return 2;\n'
+                    '  std::ifstream stream(argv[1], std::ios::binary);\n'
+                    '  std::vector<unsigned char> image((std::istreambuf_iterator<char>(stream)), {});\n'
+                    '  auto result = onion::plugin::inspect_elf(image);\n'
+                    '  return result && result.descriptor.plugin_id == "BLUE00001" &&\n'
+                    '         result.descriptor.flags == onion::plugin::kFlagStopSupported ? 0 : 1;\n'
+                    '}\n'
+                )
+                inspector = root / "check"
+                subprocess.run([cxx, "-std=c++20", "-I", str(inspector_include),
+                                str(check_cpp), str(inspector_cpp), "-o", str(inspector)], check=True)
+                self.assertEqual(subprocess.run([str(inspector), str(output)], capture_output=True).returncode, 0)
             again = subprocess.run([sys.executable, str(SCRIPT), str(output), str(root / "again.elf")],
                                    capture_output=True, text=True)
             self.assertNotEqual(again.returncode, 0)
