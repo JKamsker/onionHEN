@@ -19,7 +19,7 @@ class DescriptorTests(unittest.TestCase):
     def test_descriptor_layout(self):
         raw = plugin.descriptor_bytes("1.00")
         self.assertEqual(len(raw), 128)
-        self.assertEqual(raw[:16], bytes.fromhex("80000000010000000000000006000000"))
+        self.assertEqual(raw[:16], bytes.fromhex("80000000010000000000000004000000"))
         self.assertEqual(raw[16:48].split(b"\0", 1)[0], b"BLUE00001")
         self.assertEqual(raw[48:64].split(b"\0", 1)[0], b"1.00")
         self.assertEqual(raw[64:128].split(b"\0", 1)[0], b"BlueV Bluetooth Audio")
