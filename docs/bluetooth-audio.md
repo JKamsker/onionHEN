@@ -44,6 +44,7 @@ the version of BlueV you packaged. BlueV reports its real version in its own UI.
 
 1. Open **OnionHEN Toolbox → Plugins → BlueV Bluetooth Audio**.
 2. Turn on **Run**. Optionally enable **Auto-start** for future onionHEN boots.
+   To start a **USB adapter** automatically as well, enable **Start this adapter when BlueV starts** in BlueV's web UI. The internal PS5 radio must always be started manually.
 3. BlueV installs a **BlueV** home-screen entry that opens its control page.
    Alternatively, visit `http://<ps5-ip>:7733/` on your local network.
 4. On that page, select a Bluetooth adapter, press **Start**, then **Scan**
