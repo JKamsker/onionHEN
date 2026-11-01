@@ -97,6 +97,7 @@ PROD_CXX_SRCS := \
 	$(REPO_ROOT)/source/libonion_plugin_manager/source/plugin_descriptor.cpp \
 	$(REPO_ROOT)/source/libonion_plugin_manager/source/plugin_manager.cpp \
 	$(REPO_ROOT)/source/shellui/src/ps5_settings_ui.cpp \
+	$(REPO_ROOT)/source/shellui/src/bluev_ui.cpp \
 	$(REPO_ROOT)/source/shellui/src/toolbox_route.cpp \
 	$(REPO_ROOT)/source/shellui/src/toolbox_i18n.cpp \
 	$(REPO_ROOT)/source/shellui/src/dynamic_ui_xml.cpp \
@@ -142,6 +143,7 @@ TEST_CXX_SRCS := \
 	test_debug_settings_route_policy.cpp \
 	test_ipc_harden.cpp \
 	test_ps5_settings_ui.cpp \
+	test_bluev_ui.cpp \
 	test_toolbox_route.cpp \
 	test_onpress_policy.cpp \
 	test_toolbox_helpers.cpp \
@@ -192,6 +194,7 @@ PROD_CXX_OBJS += $(BUILD_DIR)/prod/libonion_detour/trampoline_arena.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/libonion_detour/x64_relocator.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/hook_lifecycle.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/ps5_settings_ui.o
+PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/bluev_ui.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/settings_page_update.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/toolbox_route.o
 PROD_CXX_OBJS += $(BUILD_DIR)/prod/shellui/toolbox_i18n.o
@@ -275,6 +278,10 @@ $(BUILD_DIR)/prod/libonion_detour/trampoline_arena.o: $(REPO_ROOT)/source/liboni
 	$(HOST_CXX) $(CXXFLAGS) -c -o $@ $<
 
 $(BUILD_DIR)/prod/shellui/hook_lifecycle.o: $(REPO_ROOT)/source/shellui/src/hook_lifecycle.cpp | $(BUILD_DIR)
+	@mkdir -p $(dir $@)
+	$(HOST_CXX) $(CXXFLAGS) -c -o $@ $<
+
+$(BUILD_DIR)/prod/shellui/bluev_ui.o: $(REPO_ROOT)/source/shellui/src/bluev_ui.cpp | $(BUILD_DIR)
 	@mkdir -p $(dir $@)
 	$(HOST_CXX) $(CXXFLAGS) -c -o $@ $<
 
