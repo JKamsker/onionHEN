@@ -27,6 +27,7 @@ jobs:
             source/shellui/src/bluev_ui.cpp \
             source/shellui/src/ps5_settings_ui.cpp \
             source/shellui/src/settings_page_update.cpp \
+            source/shellui/src/toolbox_route.cpp \
             third_party/cjson/cJSON.cpp \
             source/util/tests/test_harness.c \
             source/util/tests/test_bluev_ui.cpp \
