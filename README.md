@@ -65,6 +65,7 @@ OnionHEN is a practical homebrew stack for jailbroken PS5 consoles.
 - **System preparation** — raise privileges, remount filesystems, and block the update partition
 - **fSELF / fPKG** — bundled kstuff for homebrew SELF / PKG; loads by default, can be turned off in the Toolbox
 - **Plugin runtime** — discovers, validates, starts, stops, and removes descriptor-bearing plugin ELFs
+- **Bluetooth audio** — optional [BlueV](https://github.com/0xZ3n0x/BlueV) integration for A2DP speakers and headphones
 - **PS5 FTP server** — available as the optional external `onionHEN-ftpsrv-plugin`
 - **ShadowMount+** — available as the optional external `onionHEN-shadowmountplus-plugin`
 - **Remote Play pairing** — enable the native PS5 Remote Play service, generate a pairing PIN, and register a client from the Network section
@@ -135,6 +136,18 @@ starts it, and its dynamic settings page provides enable, API port, WebUI port,
 and restart controls. The browser remains the installer interface, including
 chunked uploads, queue management, staged-file reuse, and SSE progress. The
 default WebUI URL is `http://<console>:12800`.
+
+### Bluetooth audio (BlueV)
+
+Bluetooth speaker/headphone output is available through the optional external
+[BlueV](https://github.com/0xZ3n0x/BlueV) payload. Package its ELF with
+\`scripts/package_bluev_plugin.py\`, install the resulting \`BLUE00001.elf\` in
+\`/data/OnionHEN/plugins/\`, then start it from **Toolbox → Plugins**.
+Pairing, adapter selection, and audio controls remain in BlueV's web UI or its
+PS5 home-screen shortcut. **A USB Bluetooth adapter is recommended** because
+the internal radio is shared with the DualSense controller.
+
+See [the step-by-step installation and safety notes](docs/bluetooth-audio.md).
 
 ### Remote Play
 
@@ -420,6 +433,7 @@ OnionHEN exists because of the PS5 homebrew and reverse-engineering community.
 - [elfldr](https://github.com/ps5-payload-dev/elfldr) — first-hop loader on port 9021; not shipped in the payload
 - [kstuff-lite](https://github.com/EchoStretch/kstuff-lite) — EchoStretch, sleirsgoevy, and contributors; optional `kstuff.elf`
 - [onionHEN-ftpsrv-plugin](https://github.com/OnionBuddies/onionHEN-ftpsrv-plugin) — optional external FTP server plugin based on drakmor/ftpsrv
+- [BlueV](https://github.com/0xZ3n0x/BlueV) — 0xZ3n0x; optional external A2DP Bluetooth audio payload
 - [onionHEN-shadowmountplus-plugin](https://github.com/OnionBuddies/onionHEN-shadowmountplus-plugin) — optional external ShadowMount+ scanner/mounter plugin based on Drakmor's project
 - [libhijacker](https://github.com/astrelsky/libhijacker) — astrelsky; process hijack and kernel R/W
 - [NineS](https://github.com/buzzer-re/NineS) — buzzer-re; ShellUI injection
