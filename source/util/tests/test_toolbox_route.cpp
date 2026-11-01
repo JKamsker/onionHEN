@@ -114,6 +114,21 @@ static int test_plugin_config_page(void) {
   return 0;
 }
 
+static int test_bluev_native_page(void) {
+  const RouteResult route = resolve_resource(make_in(kBlueVXml));
+  TEST_ASSERT_TRUE(route.page == Page::BlueV);
+  TEST_ASSERT_TRUE(route.flags.is_bluev);
+  TEST_ASSERT_TRUE(onpress_domain_for_page(route.page) == OnPressDomain::BlueV);
+  TEST_ASSERT_TRUE(restores_parent_on_pop(route.page));
+  ToolboxUiState state;
+  state.set_active_page(Page::Plugins);
+  state.set_active_page(Page::PluginConfig);
+  state.set_active_page(Page::BlueV);
+  state.leave_page(Page::BlueV);
+  TEST_ASSERT_TRUE(state.active_page == Page::PluginConfig);
+  return 0;
+}
+
 static int test_sprx_config_page(void) {
   RouteResult list = resolve_resource(make_in(kSprxXml));
   TEST_ASSERT_TRUE(list.page == Page::Sprx);
@@ -471,6 +486,7 @@ extern "C" int test_toolbox_route_suite(void) {
   fails += onion_test_run("route.plugins", test_plugins_page);
   fails += onion_test_run("route.sprx", test_sprx_page);
   fails += onion_test_run("route.plugin_config", test_plugin_config_page);
+  fails += onion_test_run("route.bluev_native", test_bluev_native_page);
   fails += onion_test_run("route.sprx_config", test_sprx_config_page);
   fails += onion_test_run("route.payload_config", test_payload_config_page);
   fails += onion_test_run("route.overlay_metrics", test_overlay_metrics_page);
