@@ -18,6 +18,7 @@ enum class OnPressDomain : unsigned char {
   Sprx,
   Plugins,
   PluginConfig,
+  BlueV,
   AutoPayloads,
   Cheats,
   Account,
@@ -49,6 +50,8 @@ constexpr OnPressDomain onpress_domain_for_page(Page page) {
     return OnPressDomain::Plugins;
   case Page::PluginConfig:
     return OnPressDomain::PluginConfig;
+  case Page::BlueV:
+    return OnPressDomain::BlueV;
   case Page::AutoPayloads:
     return OnPressDomain::AutoPayloads;
   case Page::Cheats:
