@@ -43,21 +43,38 @@ the version of BlueV you packaged. BlueV reports its real version in its own UI.
 ## Use it on the PS5
 
 1. Open **OnionHEN Toolbox → Plugins → BlueV Bluetooth Audio**.
-2. Turn on **Run**. Optionally enable **Auto-start** for future onionHEN boots.
-   To start a **USB adapter** automatically as well, enable **Start this adapter when BlueV starts** in BlueV's web UI. The internal PS5 radio must always be started manually.
-3. BlueV installs a **BlueV** home-screen entry that opens its control page.
-   Alternatively, visit `http://<ps5-ip>:7733/` on your local network.
-4. On that page, select a Bluetooth adapter, press **Start**, then **Scan**
-   and **Connect** your speaker/headphones.
+2. Turn on **Run**, then open **Bluetooth audio settings** on that same plugin page.
+3. Choose **Start USB** (recommended) or **Start internal PS5 Bluetooth**.
+4. Press **Scan for Bluetooth speakers/headphones**. BlueV scans asynchronously
+   (up to ~30 seconds), so select **Refresh status and devices** after the scan.
+5. Select **Connect: <speaker name>** to pair and start streaming. Use **Disconnect**
+   to end the stream. Previously paired devices can reconnect automatically.
+
+The native PS5 page also provides **Forget**, high-quality audio, Bluetooth
+adapter auto-start (USB only), AVRCP headphone volume (+/- 10%), and the
+**Limit BlueV access to this PS5** toggle. The latter is recommended since
+BlueV's HTTP API otherwise has no authentication.
+
+**OnionHEN plugin Auto-start** starts the BlueV process. **Auto-start USB
+adapter** in the BlueV page starts your selected USB dongle inside BlueV
+when that process boots. The PS5's internal radio can only start manually.
+
+The native settings page uses BlueV's existing localhost HTTP API: it does
+**not** require opening BlueV's web page. The upstream `BlueV` home-screen
+shortcut and `http://<ps5-ip>:7733/` web interface still exist as an optional
+fallback (unless you restrict access to the console). There is no automatic
+live refresh while you remain on the page; use **Refresh** to update device
+and connection state.
 
 Pairings, settings and logs remain in `/data/bluev/`, managed by BlueV.
 For USB adapters that require firmware (notably Realtek), follow
 [BlueV's adapter firmware instructions](https://github.com/0xZ3n0x/BlueV#realtek-adapters).
 
-To stop BlueV cleanly, use its own **Stop BlueV** button; you can also toggle
-**Run** off in the onionHEN Toolbox. Before uninstalling, use BlueV's web
-control to remove its home-screen shortcut if you don't want to keep it, then
-stop and delete the plugin in onionHEN. Removing the plugin does not erase
+To stop BlueV, toggle **Run** off in onionHEN's plugin settings, or use
+BlueV's optional web UI **Stop BlueV** command. If you don't want the
+upstream BlueV home-screen shortcut, you can remove it using the upstream
+web interface before uninstalling; the native UI currently does not manage
+shortcuts. Stop and delete the plugin in onionHEN. Removing the plugin does not erase
 `/data/bluev/` pairings and settings.
 
 ## Important limitations
@@ -68,8 +85,9 @@ stop and delete the plugin in onionHEN. Removing the plugin does not erase
 - BlueV supports A2DP output (SBC), **not microphone audio**.
 - The BlueV web page has **no authentication** and is network-accessible by
   default. Use a trusted LAN or select its **Only this console** access mode.
-- This wrapper has host-side packaging tests, but needs validation on real PS5
-  hardware and against the specific BlueV release/firmware you install.
+- The native Toolbox integration has host-side UI/route tests; the actual
+  ShellUI-to-BlueV HTTP calls still need PS5 hardware validation, including
+  USB pairing, connection state, restarts, and quality/volume controls.
 - BlueV is GPL-3.0-or-later and is independently maintained by 0xZ3n0x.
   Source, releases, troubleshooting and supported hardware are documented in
   the [upstream BlueV repository](https://github.com/0xZ3n0x/BlueV).
