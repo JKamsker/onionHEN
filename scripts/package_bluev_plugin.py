@@ -74,8 +74,8 @@ def descriptor_bytes(version: str) -> bytes:
             raise PackagingError(f"descriptor string exceeds {size - 1} bytes")
         return raw.ljust(size, b"\0")
 
-    # struct_size, ABI v1, capabilities (none), flags (long running + SIGTERM).
-    return struct.pack("<IIII32s16s64s", 128, 1, 0, (1 << 1) | (1 << 2),
+    # struct_size, ABI v1, capabilities (none), flags (SIGTERM stop supported, no auto-restart).
+    return struct.pack("<IIII32s16s64s", 128, 1, 0, (1 << 2),
                        fixed_ascii(PLUGIN_ID, 32), fixed_ascii(version, 16),
                        fixed_ascii(PLUGIN_NAME, 64))
 
