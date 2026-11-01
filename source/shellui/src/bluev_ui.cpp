@@ -108,7 +108,9 @@ bool parse_adapters(std::string_view json, Snapshot &out) {
     const cJSON *item = cJSON_GetArrayItem(items, i);
     const std::string node = str(item, "device");
     const int cls = onion_cjson::int_item(item, "class", -1);
-    if (!valid_usb_node(node) || (cls != 224 && cls != 255))
+    if (!valid_usb_node(node) || (cls != 224 && cls != 255) ||
+        std::any_of(adapters.begin(), adapters.end(),
+                    [&](const Adapter &a) { return a.node == node; }))
       continue;
     std::string name = str(item, "product");
     if (name.empty()) name = str(item, "vendor");
@@ -128,7 +130,11 @@ bool parse_devices(std::string_view json, Snapshot &out) {
   for (int i = 0; i < count; ++i) {
     const cJSON *item = cJSON_GetArrayItem(root.get(), i);
     const std::string addr = str(item, "addr");
-    if (address_key(addr).empty())
+    const std::string key = address_key(addr);
+    if (key.empty() ||
+        std::any_of(devices.begin(), devices.end(), [&](const Device &d) {
+          return address_key(d.address) == key;
+        }))
       continue;
     Device device;
     device.address = addr;
