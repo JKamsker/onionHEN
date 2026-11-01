@@ -34,6 +34,7 @@ extern "C" int test_trampoline_arena_suite(void);
 extern "C" int test_hook_lifecycle_suite(void);
 extern "C" int test_hijack_retry_suite(void);
 extern "C" int test_ps5_settings_ui_suite(void);
+extern "C" int test_bluev_ui_suite(void);
 extern "C" int test_toolbox_route_suite(void);
 extern "C" int test_onpress_policy_suite(void);
 extern "C" int test_toolbox_helpers_suite(void);
@@ -89,6 +90,7 @@ int main() {
   failures += test_hook_lifecycle_suite();
   failures += test_hijack_retry_suite();
   failures += test_ps5_settings_ui_suite();
+  failures += test_bluev_ui_suite();
   failures += test_toolbox_route_suite();
   failures += test_onpress_policy_suite();
   failures += test_toolbox_helpers_suite();
