@@ -2,6 +2,7 @@
 """Host-only regression tests for the optional BlueV ELF wrapper."""
 
 import importlib.util
+import platform
 from pathlib import Path
 import shutil
 import subprocess
@@ -34,8 +35,9 @@ class DescriptorTests(unittest.TestCase):
             plugin.elf_sections(b"not an ELF")
 
 
-@unittest.skipUnless(shutil.which("llvm-objcopy") and (shutil.which("clang") or shutil.which("gcc")),
-                     "requires compiler and llvm-objcopy")
+@unittest.skipUnless(sys.platform.startswith("linux") and platform.machine().lower() in ("x86_64", "amd64")
+                     and shutil.which("llvm-objcopy") and (shutil.which("clang") or shutil.which("gcc")),
+                     "requires Linux x86-64, compiler and llvm-objcopy")
 class IntegrationTests(unittest.TestCase):
     def test_packaged_elf_has_descriptor_and_runs(self):
         with tempfile.TemporaryDirectory() as temp:
