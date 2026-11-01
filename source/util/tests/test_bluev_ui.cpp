@@ -1,6 +1,8 @@
 #include "test_harness.h"
 
 #include "bluev_ui.hpp"
+#include "onpress_policy.hpp"
+#include "toolbox_route.hpp"
 #include "settings_page_update.hpp"
 
 #include <algorithm>
@@ -108,11 +110,23 @@ static int test_invalid_and_offline() {
   return 0;
 }
 
+static int test_native_route_and_domain() {
+  const toolbox::RouteInput request{.resource = toolbox::kBlueVXml};
+  const auto result = toolbox::resolve_resource(request);
+  TEST_ASSERT_TRUE(result.page == toolbox::Page::BlueV);
+  TEST_ASSERT_TRUE(result.flags.is_bluev);
+  TEST_ASSERT_TRUE(toolbox::restores_parent_on_pop(result.page));
+  TEST_ASSERT_TRUE(toolbox::onpress_domain_for_page(result.page) ==
+                   toolbox::OnPressDomain::BlueV);
+  return 0;
+}
+
 extern "C" int test_bluev_ui_suite(void) {
   int fails = 0;
   fails += onion_test_run("bluev.status_adapters", test_status_and_adapters);
   fails += onion_test_run("bluev.devices_actions", test_devices_and_commands);
   fails += onion_test_run("bluev.streaming", test_streaming_volume_and_stale_controls);
   fails += onion_test_run("bluev.invalid_offline", test_invalid_and_offline);
+  fails += onion_test_run("bluev.native_route", test_native_route_and_domain);
   return fails;
 }
