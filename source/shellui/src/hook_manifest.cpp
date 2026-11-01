@@ -12,6 +12,7 @@
 #include "toolbox_route.hpp"
 #include "dynamic_ui_runtime.hpp"
 #include "external_plugin_ui.hpp"
+#include "bluev_ui.hpp"
 #include "external_sprx_ui.hpp"
 #include <onion/platform.h>
 #include <string>
@@ -174,6 +175,9 @@ uint64_t GetManifestResourceStream_Hook(uint64_t inst, MonoString *FileName) {
     generate_plugin_config_xml(new_xml_string);
     break;
   }
+  case toolbox::Page::BlueV:
+    onion::shellui::bluev::generate_xml(new_xml_string);
+    break;
   case toolbox::Page::Cheats:
     generate_cheats_xml(new_xml_string, g_ui.current_menu_tid, shortcut,
                         shortcut_not_open);
