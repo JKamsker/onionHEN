@@ -74,8 +74,9 @@ stop and delete the plugin in onionHEN. Removing the plugin does not erase
   Source, releases, troubleshooting and supported hardware are documented in
   the [upstream BlueV repository](https://github.com/0xZ3n0x/BlueV).
 
-Run the packaging tests on a development host with Python 3.10+, a C compiler
-and `llvm-objcopy`:
+Run the packaging tests with Python 3.10+. The ELF execution and real
+plugin-inspector integration test requires Linux x86-64, a C/C++ compiler
+and `llvm-objcopy` (the descriptor unit tests run on other hosts):
 
 ```sh
 python3 -m unittest discover -s scripts/tests -p 'test_package_bluev_plugin.py'
