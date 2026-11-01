@@ -35,15 +35,11 @@ static int test_status_and_adapters() {
   TEST_ASSERT_TRUE(has_id(page, "id_bluev_start_ugen1.2"));
   TEST_ASSERT_TRUE(has_id(page, "id_bluev_start_internal"));
   TEST_ASSERT_TRUE(onion::shellui::settings::valid_live_model(page.root()));
-  TEST_ASSERT_STREQ("/api/radio/on?adapter=external&dev=ugen1.2",
-                    bluev::post_endpoint("id_bluev_start_ugen1.2", "", s).c_str());
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_start_ugen1.2", "", s) == "/api/radio/on?adapter=external&dev=ugen1.2");
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_start_ugen2.2", "", s).empty());
-  TEST_ASSERT_STREQ("/api/radio/on?adapter=internal",
-                    bluev::post_endpoint("id_bluev_start_internal", "", s).c_str());
-  TEST_ASSERT_STREQ("/api/quality?v=0",
-                    bluev::post_endpoint("id_bluev_quality", "0", s).c_str());
-  TEST_ASSERT_STREQ("/api/network?v=local",
-                    bluev::post_endpoint("id_bluev_local_only", "1", s).c_str());
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_start_internal", "", s) == "/api/radio/on?adapter=internal");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_quality", "0", s) == "/api/quality?v=0");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_local_only", "1", s) == "/api/network?v=local");
   return 0;
 }
 
@@ -64,16 +60,13 @@ static int test_devices_and_commands() {
   TEST_ASSERT_TRUE(has_id(page, "id_bluev_forget_aabbccddeeff"));
   TEST_ASSERT_TRUE(!has_id(page, "id_bluev_forget_112233445566"));
   TEST_ASSERT_TRUE(page.build().find("Headphones &amp; &lt;blue&gt;") != std::string::npos);
-  TEST_ASSERT_STREQ("/api/connect?addr=AA:BB:CC:DD:EE:FF",
-                    bluev::post_endpoint("id_bluev_connect_aabbccddeeff", "", s).c_str());
-  TEST_ASSERT_STREQ("/api/forget?addr=AA:BB:CC:DD:EE:FF",
-                    bluev::post_endpoint("id_bluev_forget_aabbccddeeff", "", s).c_str());
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_connect_aabbccddeeff", "", s) == "/api/connect?addr=AA:BB:CC:DD:EE:FF");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_forget_aabbccddeeff", "", s) == "/api/forget?addr=AA:BB:CC:DD:EE:FF");
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_forget_112233445566", "", s).empty());
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_connect_123456789012", "", s).empty());
-  TEST_ASSERT_STREQ("/api/autostart?on=0",
-                    bluev::post_endpoint("id_bluev_autostart", "0", s).c_str());
-  TEST_ASSERT_STREQ("/api/scan", bluev::post_endpoint("id_bluev_scan", "", s).c_str());
-  TEST_ASSERT_STREQ("/api/radio/off", bluev::post_endpoint("id_bluev_radio_off", "", s).c_str());
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_autostart", "0", s) == "/api/autostart?on=0");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_scan", "", s) == "/api/scan");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_radio_off", "", s) == "/api/radio/off");
   return 0;
 }
 
@@ -91,12 +84,9 @@ static int test_streaming_volume_and_stale_controls() {
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_scan", "", s).empty());
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_radio_off", "", s).empty());
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_autostart", "1", s).empty());
-  TEST_ASSERT_STREQ("/api/volume?v=100",
-                    bluev::post_endpoint("id_bluev_volume_up", "", s).c_str());
-  TEST_ASSERT_STREQ("/api/volume?v=85",
-                    bluev::post_endpoint("id_bluev_volume_down", "", s).c_str());
-  TEST_ASSERT_STREQ("/api/disconnect",
-                    bluev::post_endpoint("id_bluev_disconnect", "", s).c_str());
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_volume_up", "", s) == "/api/volume?v=100");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_volume_down", "", s) == "/api/volume?v=85");
+  TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_disconnect", "", s) == "/api/disconnect");
   TEST_ASSERT_TRUE(bluev::post_endpoint("id_bluev_quality", "2", s).empty());
   return 0;
 }
