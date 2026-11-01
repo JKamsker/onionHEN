@@ -33,6 +33,7 @@ RouteResult resolve_resource(const RouteInput &in) {
   out.flags.is_cheat_progress = (in.resource == kCheatProgressXml);
   out.flags.is_plugin_progress = (in.resource == kPluginProgressXml);
   out.flags.is_remote_play = (in.resource == kRemotePlayXml);
+  out.flags.is_bluev = (in.resource == kBlueVXml);
   out.flags.is_su_menu = (in.resource == kSuperuserXml);
 
   if (in.cheats_shortcut || in.cheats_shortcut_not_open) {
@@ -61,6 +62,8 @@ RouteResult resolve_resource(const RouteInput &in) {
     out.page = Page::SprxConfig;
   } else if (out.flags.is_plugin_config) {
     out.page = Page::PluginConfig;
+  } else if (out.flags.is_bluev) {
+    out.page = Page::BlueV;
   } else if (out.flags.is_cheats) {
     out.page = Page::Cheats;
     out.clear_cheat_shortcuts_after = true;
