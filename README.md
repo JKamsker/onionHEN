@@ -142,10 +142,11 @@ default WebUI URL is `http://<console>:12800`.
 Bluetooth speaker/headphone output is available through the optional external
 [BlueV](https://github.com/0xZ3n0x/BlueV) payload. Package its ELF with
 `scripts/package_bluev_plugin.py`, install the resulting `BLUE00001.elf` in
-`/data/OnionHEN/plugins/`, then start it from **Toolbox → Plugins**.
-Pairing, adapter selection, and audio controls remain in BlueV's web UI or its
-PS5 home-screen shortcut. **A USB Bluetooth adapter is recommended** because
-the internal radio is shared with the DualSense controller.
+`/data/OnionHEN/plugins/`, and start it from **Toolbox → Plugins → BlueV**.
+Use **Bluetooth audio settings** on the same page for native adapter selection,
+scanning, pairing, connecting, quality, volume and auto-start. The optional
+BlueV web UI is not required. **A USB Bluetooth adapter is recommended**
+because the internal radio is shared with the DualSense controller.
 
 See [the step-by-step installation and safety notes](docs/bluetooth-audio.md).
 
