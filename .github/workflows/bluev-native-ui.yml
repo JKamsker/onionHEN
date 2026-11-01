@@ -1,0 +1,41 @@
+name: BlueV native PS5 UI host tests
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/bluev-native-ui.yml"
+      - "source/shellui/**"
+      - "source/util/tests/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  bluev-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile native BlueV UI tests without a PS5 SDK
+        run: |
+          cat > /tmp/bluev-ui-main.cpp <<'EOF'
+          extern "C" int test_bluev_ui_suite(void);
+          int main() { return test_bluev_ui_suite(); }
+          EOF
+          g++ -std=c++20 -Wall -Wextra \
+            -Isource/shellui/include -Isource/util/tests -Ithird_party/cjson \
+            source/shellui/src/bluev_ui.cpp \
+            source/shellui/src/ps5_settings_ui.cpp \
+            source/shellui/src/settings_page_update.cpp \
+            source/shellui/src/toolbox_route.cpp \
+            third_party/cjson/cJSON.cpp \
+            source/util/tests/test_harness.c \
+            source/util/tests/test_bluev_ui.cpp \
+            /tmp/bluev-ui-main.cpp -lm -o /tmp/bluev-ui-tests
+      - name: Syntax-check the local BlueV HTTP client
+        run: |
+          g++ -std=c++20 -Wall -Wextra -fsyntax-only \
+            -Isource/shellui/include -Ithird_party/cjson \
+            source/shellui/src/bluev_client.cpp
+      - name: Run native UI and API command tests
+        run: /tmp/bluev-ui-tests

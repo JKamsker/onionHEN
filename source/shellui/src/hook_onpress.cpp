@@ -74,6 +74,9 @@ OnPressResult dispatch_toolbox_press(toolbox::OnPressDomain domain,
     run_prefix(onpress_plugins_prefix);
     run_exact(onpress_plugins_exact);
     break;
+  case toolbox::OnPressDomain::BlueV:
+    run_prefix(onpress_bluev_prefix);
+    break;
   case toolbox::OnPressDomain::Cheats:
     run_prefix(onpress_cheats_prefix);
     break;

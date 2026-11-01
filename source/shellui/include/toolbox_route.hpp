@@ -22,6 +22,7 @@ enum class Page : unsigned char {
   SprxConfig,         /**< per-module SPRX catalog page (sprx_<id>.xml) */
   Plugins,            /**< built-in and externally discovered plugins */
   PluginConfig,       /**< per-plugin configuration page (kstuff.xml / plugin_<id>.xml) */
+  BlueV,               /**< native Bluetooth audio controls for optional BlueV plugin */
   Cheats,
   AutoPayloads,
   Account,
@@ -57,6 +58,7 @@ struct RouteFlags {
   bool is_sprx = false;
   bool is_sprx_config = false;
   bool is_plugin_config = false;
+  bool is_bluev = false;
   bool is_su_menu = false;
   bool is_debug_settings = false;
   bool is_cheats = false;
@@ -81,7 +83,7 @@ constexpr bool restores_parent_on_pop(Page page) {
   return page == Page::CheatProgress || page == Page::RemotePlay ||
          page == Page::CustomPkgInstaller ||
          page == Page::PayloadConfig || page == Page::OverlayMetricConfig ||
-         page == Page::PluginConfig ||
+         page == Page::PluginConfig || page == Page::BlueV ||
          page == Page::SprxConfig ||
          page == Page::DynamicPlugin ||
          page == Page::PluginProgress;
@@ -100,6 +102,8 @@ inline constexpr std::string_view kCheatProgressXml =
     "Sce.Vsh.ShellUI.Legacy.src.Sce.Vsh.ShellUI.Settings.Plugins.cheat_progress.xml";
 inline constexpr std::string_view kPluginProgressXml =
     "Sce.Vsh.ShellUI.Legacy.src.Sce.Vsh.ShellUI.Settings.Plugins.plugin_progress.xml";
+inline constexpr std::string_view kBlueVXml =
+    "Sce.Vsh.ShellUI.Legacy.src.Sce.Vsh.ShellUI.Settings.Plugins.bluev.xml";
 inline constexpr std::string_view kRemotePlayXml =
     "Sce.Vsh.ShellUI.Legacy.src.Sce.Vsh.ShellUI.Settings.Plugins.remote_play.xml";
 inline constexpr std::string_view kSuperuserXml =

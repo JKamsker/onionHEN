@@ -1,4 +1,5 @@
 #include "plugin_sprx_pages.hpp"
+#include "bluev_ui.hpp"
 
 #include "toolbox_i18n.hpp"
 #include "toolbox_route.hpp"
@@ -45,6 +46,10 @@ void fill_plugin_config(ps5ui::Page &page, const PluginInventoryItem &plugin,
               settings->description.empty()
                   ? std::optional<std::string>{}
                   : std::optional<std::string>{settings->description});
+  if (plugin.plugin_id == bluev::kPluginId)
+    page.link("id_bluev_settings_link", "Bluetooth audio settings",
+              std::string(bluev::kResource),
+              "Pair speakers, choose adapters, change audio quality");
   page.button(std::string(kPluginDeletePrefix) + plugin.plugin_id,
               toolbox_i18n::tr("plugins.external.delete"), std::nullopt,
               std::nullopt, std::nullopt, ps5ui::Style::None,
